@@ -6,10 +6,10 @@ For more information, see the TeaStore microservice application deploy and undep
 Install instructions
 1.	Install metrics server on EKS cluster
 2.	Deploy teastore app using the following commands
-	a.	kubectl apply -f teastore-clusterip.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
-	b.	kubectl apply -f teastore-loadgen.yaml --kubeconfig ${eks\iks_kubeconfig_filepath} 
-	c.	kubectl apply -f teastore-ldap.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
-3.	Copy the IP generated for teastore-ldap service and subsitiute in teastore-hacky-load.yaml file
+	a.	kubectl apply -f https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-clusterip.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+	b.	kubectl apply -f https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-loadgen.yaml --kubeconfig ${eks\iks_kubeconfig_filepath} 
+	c.	kubectl apply -f https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-ldap.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+3.	Copy the IP generated for teastore-ldap service and subsitiute in https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-hacky-load.yaml file
 4.	Deploy hacky load to execute attacks for Log4J
 	a.	kubectl apply -f teastore-hacky-load.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
 5.	Deploy the cluster agent and AppD agents using helm. The java parameter in the yaml files enables auto instrumentation with cluster agent
@@ -32,7 +32,7 @@ Install instructions
 
 Uninstall instructions
 1.	Undeploy teastore app using the following commands
-	a.	kubectl delete -f teastore-clusterip.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
-	b.	kubectl delete -f teastore-loadgen.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
-	c.	kubectl delete -f teastore-ldap.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+	a.	kubectl delete -f https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-clusterip.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+	b.	kubectl delete -f https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-loadgen.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+	c.	kubectl delete -f https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-ldap.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
 	d.	kubectl delete -f teastore-hacky-load.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
