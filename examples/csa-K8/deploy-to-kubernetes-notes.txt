@@ -4,16 +4,16 @@ Deploy/Undeploy to Kubernetes Clusters (EKS/IKS)
 For more information, see the TeaStore microservice application deploy and undeploy steps here:
 
 Install instructions
-1.	Install metrics server on EKS cluster
+1.	Install metrics server on EKS\IKS cluster
 2.	Deploy teastore app using the following commands
 	a.	kubectl apply -f https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-clusterip.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
 	b.	kubectl apply -f https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-loadgen.yaml --kubeconfig ${eks\iks_kubeconfig_filepath} 
 	c.	kubectl apply -f https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-ldap.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
-3.	Copy the IP generated for teastore-ldap service and subsitiute in https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-hacky-load.yaml file
+3.	Copy the IP generated for teastore-ldap service and substitute in https://github.com/msunkad/TeaStore/blob/master/examples/csa-K8/teastore-hacky-load.yaml file
 4.	Deploy hacky load to execute attacks for Log4J
 	a.	kubectl apply -f teastore-hacky-load.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
 5.	Deploy the cluster agent and AppD agents using helm. The java parameter in the yaml files enables auto instrumentation with cluster agent
-	a.	Install helm on EC2
+	a.	Install helm on the VM
 		curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
 		chmod 700 get_helm.sh
 		./get_helm.sh
@@ -28,7 +28,7 @@ Install instructions
 	f.	Install the cluster\appdynamics agents in the EKS cluster
 		helm install -f ./values-ca1.yaml "@[ADWRKSHP_CLUSTER_AGENT_NAME]" appdynamics-charts/cluster-agent --namespace=appdynamics
 		E.g
-		helm install -f ./values-ca1.yaml csa-teastore-eks appdynamics-charts/cluster-agent --namespace=appdynamics
+		helm install -f ./values-ca1.yaml csa-teastore-iks appdynamics-charts/cluster-agent --namespace=appdynamics
 
 Uninstall instructions
 1.	Undeploy teastore app using the following commands
