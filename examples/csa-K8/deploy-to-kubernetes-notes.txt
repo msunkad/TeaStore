@@ -1,0 +1,38 @@
+----------------------------------------------------------------------------------------------------
+Deploy/Undeploy to Kubernetes Clusters (EKS/IKS)
+----------------------------------------------------------------------------------------------------
+For more information, see the TeaStore microservice application deploy and undeploy steps here:
+
+Install instructions
+1.	Install metrics server on EKS cluster
+2.	Deploy teastore app using the following commands
+	a.	kubectl apply -f teastore-clusterip.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+	b.	kubectl apply -f teastore-loadgen.yaml --kubeconfig ${eks\iks_kubeconfig_filepath} 
+	c.	kubectl apply -f teastore-ldap.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+3.	Copy the IP generated for teastore-ldap service and subsitiute in teastore-hacky-load.yaml file
+4.	Deploy hacky load to execute attacks for Log4J
+	a.	kubectl apply -f teastore-hacky-load.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+5.	Deploy the cluster agent and AppD agents using helm. The java parameter in the yaml files enables auto instrumentation with cluster agent
+	a.	Install helm on EC2
+		curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+		chmod 700 get_helm.sh
+		./get_helm.sh
+	b.	If helm latest version has issues deploying cluster agent, then downgrade to lower version
+		./get_helm.sh -v v3.8.2
+	c.	update the yaml with controller details and appdynamics application name csa-teastore-<eks\iks>
+		https://github.com/APO-SRE/fso-lab-devops/blob/main/applications/environment/workshop/values-ca1.yaml.template
+	d.	Install the appdynamics helm charts into the local helm repo
+		helm repo add appdynamics-charts https://ciscodevnet.github.io/appdynamics-charts
+	e.	Create appdynamics namespace in the EKS cluster
+		kubectl create namespace appdynamics
+	f.	Install the cluster\appdynamics agents in the EKS cluster
+		helm install -f ./values-ca1.yaml "@[ADWRKSHP_CLUSTER_AGENT_NAME]" appdynamics-charts/cluster-agent --namespace=appdynamics
+		E.g
+		helm install -f ./values-ca1.yaml csa-teastore-eks appdynamics-charts/cluster-agent --namespace=appdynamics
+
+Uninstall instructions
+1.	Undeploy teastore app using the following commands
+	a.	kubectl delete -f teastore-clusterip.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+	b.	kubectl delete -f teastore-loadgen.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+	c.	kubectl delete -f teastore-ldap.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
+	d.	kubectl delete -f teastore-hacky-load.yaml --kubeconfig ${eks\iks_kubeconfig_filepath}
